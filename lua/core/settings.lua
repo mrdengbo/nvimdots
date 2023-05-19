@@ -34,7 +34,7 @@ settings["palette_overwrite"] = {}
 -- Set the colorscheme to use here.
 -- Available values are: `catppuccin`, `catppuccin-latte`, `catppucin-mocha`, `catppuccin-frappe`, `catppuccin-macchiato`, `edge`, `nord`.
 ---@type string
-settings["colorscheme"] = "catppuccin"
+settings["colorscheme"] = "onedark"
 
 -- Set it to true if your terminal has transparent background.
 ---@type boolean
@@ -63,7 +63,7 @@ settings["server_formatting_block_list"] = {
 	lua_ls = true,
 	tsserver = true,
 	clangd = true,
-	pylsp = true,
+	-- pylsp = true,
 }
 
 -- Set the language servers that will be installed during bootstrap here
@@ -76,8 +76,8 @@ settings["lsp_deps"] = {
 	"html",
 	"jsonls",
 	"lua_ls",
-	"pylsp",
-	-- "gopls",
+	-- "pylsp",
+	"gopls",
 }
 
 -- Set the general-purpose servers that will be installed during bootstrap here
