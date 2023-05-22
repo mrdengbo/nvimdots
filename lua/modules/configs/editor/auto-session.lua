@@ -1,7 +1,14 @@
 return function()
-	local function restore_nvim_tree()
-		local nvim_tree = require("nvim-tree")
-		nvim_tree.api.toggle({ path = vim.fn.getcwd() })
+	vim.api.nvim_create_user_command("RestoreNvimTree", function()
+		local api = require("nvim-tree.api")
+		api.tree.toggle()
+		api.tree.reload()
+	end, {})
+
+	local config = function()
+		vim.cmd([[
+        let g:auto_session_post_restore_cmds = ["RestoreNvimTree"] 
+        ]])
 	end
 
 	require("auto-session").setup({
@@ -12,18 +19,25 @@ return function()
 		auto_save_enabled = true,
 		auto_restore_enabled = true,
 		auto_session_suppress_dirs = nil,
+		bypass_session_save_file_types = nil, -- table: Bypass auto save when only buffer open is one of these file types
+		cwd_change_handling = { -- table: Config for handling the DirChangePre and DirChanged autocmds, can be set to nil to disable altogether
+			restore_upcoming_session = true, -- boolean: restore session for upcoming cwd on cwd change
+			pre_cwd_changed_hook = nil, -- function: This is called after auto_session code runs for the `DirChangedPre` autocmd
+			post_cwd_changed_hook = nil, -- function: This is called after auto_session code runs for the `DirChanged` autocmd
+		},
 		session_lens = {
-			-- If `load_on_setup` is set to false, please use `SessionLensToggle` to manually load this add-on.
-			load_on_setup = false,
 			theme_conf = { border = true },
 			previewer = false,
 		},
+		config(),
+		require("lualine").setup({
+			options = {
+				theme = "nord",
+			},
+			sections = { lualine_c = { require("auto-session.lib").current_session_name } },
+		}),
+		vim.keymap.set("n", "<leader>as", require("auto-session.session-lens").search_session, {
+			noremap = true,
+		}),
 	})
-
-	vim.api.nvim_create_user_command("SessionLensToggle", function()
-		if not package.loaded["auto-session.session-lens"] then
-			require("auto-session").setup_session_lens()
-		end
-		require("auto-session.session-lens").search_session()
-	end, { nargs = 0 })
 end
