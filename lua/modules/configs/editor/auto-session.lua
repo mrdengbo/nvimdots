@@ -1,4 +1,9 @@
 return function()
+	local function restore_nvim_tree()
+		local nvim_tree = require("nvim-tree")
+		nvim_tree.api.toggle({ path = vim.fn.getcwd() })
+	end
+
 	require("auto-session").setup({
 		log_level = "info",
 		auto_session_enable_last_session = true,

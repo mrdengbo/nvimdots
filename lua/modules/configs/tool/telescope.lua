@@ -2,6 +2,9 @@ return function()
 	local icons = { ui = require("modules.utils.icons").get("ui", true) }
 	local lga_actions = require("telescope-live-grep-args.actions")
 
+	local live_grep_args_shortcuts = require("telescope-live-grep-args.shortcuts")
+	vim.keymap.set("v", "<leader>ac", live_grep_args_shortcuts.grep_visual_selection)
+
 	require("telescope").setup({
 		defaults = {
 			initial_mode = "insert",
