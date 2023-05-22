@@ -11,4 +11,10 @@ custom["mg979/vim-visual-multi"] = {
 	config = require("custom.vim-visual-multi"),
 }
 
+custom["folke/todo-comments.nvim"] = {
+	lazy = true,
+	event = { "CursorHold", "CursorHoldI" },
+	config = require("custom.todo-comments"),
+}
+
 return custom
